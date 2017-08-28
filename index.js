@@ -21,8 +21,8 @@ function mergeDependencyMaps (map1, map2) {
   for (let key in map2) {
     if (map2.hasOwnProperty(key)) {
       if (key in map1) {
-        map1[key] = forceArray(map1[key])
-        forceArray(map2[key]).forEach((value) => addToSetInPlace(map1[key], value))
+        map1[key] = array.forceArray(map1[key])
+        array.forceArray(map2[key]).forEach((value) => array.addToSetInPlace(map1[key], value))
       } else {
         map1[key] = map2[key]
       }
