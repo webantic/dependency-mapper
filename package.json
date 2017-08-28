@@ -1,0 +1,22 @@
+{
+  "name": "@webantic/dependency-mapper",
+  "version": "1.0.0",
+  "description": "Recursively extract Meteor dependencies declared in npm modules' package.json files",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/webantic/dependency-mapper.git"
+  },
+  "author": "Webantic (Carl Evans)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/webantic/dependency-mapper/issues"
+  },
+  "homepage": "https://github.com/webantic/dependency-mapper#readme",
+  "dependencies": {
+    "@webantic/util": "^4.0.4"
+  }
+}
