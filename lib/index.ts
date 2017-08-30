@@ -9,7 +9,7 @@ export default function mapper (absPath: string, skipTopLevel?: boolean) {
   try {
     const packageJsonPath = path.join(absPath, 'package.json')
     log('Requiring ' + packageJsonPath)
-    json = require(packageJsonPath)
+    json = Object.assign({}, require(packageJsonPath))
   } catch (ex) {
     error(ex)
     return {}
@@ -105,7 +105,7 @@ function mergeDependencyMaps (map1: any, map2: any) {
 function getPackageJson (moduleName: string, currentPrefix: string) {
   const absPath = path.resolve(currentPrefix, 'node_modules', moduleName, 'package.json')
   try {
-    return require(absPath)
+    return Object.assign({}, require(absPath))
   } catch (ex) {
     error(ex)
     return {}
