@@ -70,7 +70,7 @@ function processPackageJson (json: any, currentPrefix?: string, skipTopLevel?: b
 }
 
 /**
- * Merge two objects together, where each property has a `locus` and `exports`
+ * Merge two objects together
  *
  * @param {any} map1 The first object, items are merged into this
  * @param {any} map2 The second object, items are extracted from this
@@ -80,12 +80,10 @@ function mergeDependencyMaps (map1: any, map2: any) {
   for (const key in map2) {
     if (map2.hasOwnProperty(key)) {
       if (key in map1) {
-        // locus
-        map1[key].locus = forceArray(map1[key].locus)
-        forceArray(map2[key].locus).forEach((value) => addToSetInPlace(map1[key].locus, value))
-        // exports
-        map1[key].exports = forceArray(map1[key].exports)
-        forceArray(map2[key].exports).forEach((value) => addToSetInPlace(map1[key].exports, value))
+        // first, convert values like 'client' to ['client']
+        map1[key] = forceArray(map1[key])
+        // ensure map2[key] is an array, then iterate each value, adding missing ones to map1[key]
+        forceArray(map2[key]).forEach((value) => addToSetInPlace(map1[key], value))
       } else {
         map1[key] = map2[key]
       }

@@ -1,6 +1,6 @@
 {
   "name": "@webantic/dependency-mapper",
-  "version": "1.1.3",
+  "version": "1.1.4",
   "description": "Recursively extract Meteor dependencies declared in npm modules' package.json files",
   "types": "lib/index.d.ts",
   "main": "lib/index",
