@@ -1,5 +1,5 @@
-import * as path from 'path'
 import * as debug from 'debug'
+import * as path from 'path'
 
 const log = debug('dependency-mapper:log:' + module.id)
 const error = debug('dependency-mapper:error:' + module.id)
