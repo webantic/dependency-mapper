@@ -4,6 +4,30 @@ import * as path from 'path'
 const log = debug('dependency-mapper:log:' + module.id)
 const error = debug('dependency-mapper:error:' + module.id)
 
+export interface IPackageProcesserReturn {
+  [key: string]: {
+    allMeteorDependencies?: IPackageJsonMeteorDeps
+    dependencies?: anySigObj
+    meteorDependencies?: IPackageJsonMeteorDeps
+  }
+}
+
+export interface IPackageJsonMeteorDeps {
+  [packageName: string]: 'client' | 'server' | Array<'client'|'server'>
+}
+
+export interface IPackageJsonDependencies {
+  [moduleName: string]: string
+}
+
+/**
+ * Take a path to a package.json and recursively extract meteor deps
+ *
+ * @export
+ * @param {string} absPath the abs path to the package.json
+ * @param {boolean} [skipTopLevel] If `true` then only dependencies of the package.json at absPath will be processed
+ * @returns {IPackageProcesserReturn}
+ */
 export default function mapper (absPath: string, skipTopLevel?: boolean) {
   let json
   try {
@@ -23,16 +47,10 @@ export default function mapper (absPath: string, skipTopLevel?: boolean) {
  * @param {any} json The package.json
  * @param {string} [currentPrefix] A path prefix
  * @param {boolean} [skipTopLevel] Whether to add Meteor deps for the top package or not
- * @returns
+ * @returns {IPackageProcesserReturn}
  */
-function processPackageJson (json: any, currentPrefix?: string, skipTopLevel?: boolean) {
-  const returnValue: {
-    [key: string]: {
-      allMeteorDependencies?: anySigObj
-      dependencies?: anySigObj
-      meteorDependencies?: anySigObj
-    }
-  } = {}
+function processPackageJson (json: any, currentPrefix?: string, skipTopLevel?: boolean): IPackageProcesserReturn {
+  const returnValue: IPackageProcesserReturn = {}
 
   // check for a standard prop's presence before proceeding
   if (json.name) {
@@ -42,17 +60,18 @@ function processPackageJson (json: any, currentPrefix?: string, skipTopLevel?: b
       meteorDependencies: skipTopLevel ? {} : extractMeteorDeps(json) // "direct" dependencies
     }
 
-    // Loop over each npm dependency and, if it starts with "@webantic/", process the package.json
-    // This usually has the effect of returning an object with meteorDependencies, dependencies and
-    // allMeteorDependencies (which we merge into our current "allMeteorDependencies" to get a complete
-    // picture)
+    // Loop over each npm dependency and process the package.json.  This usually has the effect
+    // of returning an object with meteorDependencies, dependencies and allMeteorDependencies
+    // (which we merge into our current "allMeteorDependencies" to get a complete picture)
     if ('dependencies' in json) {
       for (const moduleName in json.dependencies) {
-        if (json.dependencies.hasOwnProperty(moduleName) && moduleName.indexOf('@webantic/') === 0) {
+        if (json.dependencies.hasOwnProperty(moduleName)) {
           const newPrefix = path.join(currentPrefix, 'node_modules', moduleName)
           const childValue = processPackageJson(getPackageJson(moduleName, currentPrefix), newPrefix)
 
+          // if the child module had meteor deps...
           if (moduleName in childValue) {
+            // ... track & merge
             returnValue[json.name].dependencies[moduleName] = childValue[moduleName]
             mergeDependencyMaps(
               returnValue[json.name].allMeteorDependencies,
@@ -116,7 +135,7 @@ function getPackageJson (moduleName: string, currentPrefix: string) {
  * @param {Object} json The input object
  * @returns {Object} the extracted property, or an empty object
  */
-function extractMeteorDeps (json: {meteorDependencies?: any}) {
+function extractMeteorDeps (json: {meteorDependencies?: IPackageJsonMeteorDeps}): IPackageJsonMeteorDeps {
   return ('meteorDependencies' in json)
     ? json.meteorDependencies
     : {}
