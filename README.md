@@ -45,7 +45,9 @@ The mapper will extract the value of `meteorDependencies` in any `package.json` 
 {
   "name": "mymodule",
   "version": "1.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "@webantic/meteor-deps": "^1.1.9"
+  },
   "meteorDependencies": {
     "meteor/meteor": ["client", "server"],
     "kadira:flow-router": ["client"],
