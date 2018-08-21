@@ -1,14 +1,14 @@
 {
   "name": "@webantic/dependency-mapper",
-  "version": "1.1.9",
+  "version": "2.1.0",
   "description": "Recursively extract Meteor dependencies declared in npm modules' package.json files",
   "types": "lib/index.d.ts",
   "main": "lib/index",
   "scripts": {
     "dist": "npm run format:ts && npm run build",
     "prepublish": "npm run dist",
-    "format:ts": "tslint --fix --force --format stylish --config tslint.json --project tsconfig.json --type-check --rules-dir .rules/ts",
-    "build": "tsc -p . || :"
+    "format:ts": "tslint --fix --force --format stylish --config tslint.json --project tsconfig.json",
+    "build": "tsc -p ."
   },
   "repository": {
     "type": "git",
@@ -21,14 +21,18 @@
   },
   "homepage": "https://github.com/webantic/dependency-mapper#readme",
   "dependencies": {
-    "debug": "^3.0.1",
-    "@types/debug": "0.0.30",
-    "@types/node": "^8.0.26"
+    "debug": "^3.0.1"
   },
   "devDependencies": {
-    "tslint": "^5.7.0",
+    "@types/debug": "0.0.30",
+    "@types/node": "^8.10.26",
+    "tslint": "^5.11.0",
     "tslint-config-standard": "^6.0.1",
     "tslint-eslint-rules": "^4.1.1",
-    "typescript": "^2.4.2"
+    "typescript": "^2.9.2"
+  },
+  "peerDependencies": {
+    "@types/debug": "0.0.30",
+    "@types/node": "^8.10.26"
   }
 }

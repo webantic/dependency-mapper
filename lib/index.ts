@@ -20,6 +20,10 @@ export interface IPackageJsonDependencies {
   [moduleName: string]: string
 }
 
+export interface anySigObj {
+  [key: string]: any
+}
+
 /**
  * Take a path to a package.json and recursively extract meteor deps
  *
