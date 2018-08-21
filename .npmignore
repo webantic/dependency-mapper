@@ -6,7 +6,7 @@ tsconfig.json
 .editorconfig
 node_modules
 test
-.git
+.git/**
 
 .gitignore
 
