@@ -20,6 +20,7 @@ export interface IPackageJsonDependencies {
   [moduleName: string]: string
 }
 
+// tslint:disable-next-line
 export interface anySigObj {
   [key: string]: any
 }

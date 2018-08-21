@@ -1,0 +1,16 @@
+.vscode
+.rules
+.meteor*
+tslint.json
+tsconfig.json
+.editorconfig
+node_modules
+test
+.git
+
+.gitignore
+
+**/*.ts
+!**/*.d.ts
+
+**/*.js.map
